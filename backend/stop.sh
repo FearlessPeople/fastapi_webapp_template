@@ -12,7 +12,7 @@ if [ -n "$gunicorn_pid" ]; then
     sleep 5
 
     # 查找所有 gunicorn 子进程 PID
-    gunicorn_child_pids=$(ps axo pid,ppid | awk "\$2 == $gunicorn_pid {print \$1}")
+    gunicorn_child_pids=$(pgrep -P $gunicorn_pid)
 
     # 如果找到了子进程 PID
     if [ -n "$gunicorn_child_pids" ]; then
