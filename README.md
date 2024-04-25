@@ -1,0 +1,2 @@
+# fastapi_webapp_template
+Fastapi的一个webapp框架模板
