@@ -3,6 +3,7 @@ aiosqlite==0.17.0
 annotated-types==0.6.0
 anyio==4.3.0
 atlastk==0.13.3
+bcrypt==4.0.1
 certifi==2024.2.2
 charset-normalizer==3.3.2
 click==8.1.7
