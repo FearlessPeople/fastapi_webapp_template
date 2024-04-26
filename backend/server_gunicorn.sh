@@ -11,12 +11,12 @@ GREEN='\033[0;32m'
 RED='\033[0;31m'
 NC='\033[0m' # No Color
 
-# 函数：获取当前时间
+# 获取当前时间
 current_time() {
     echo -n "$(date +'%Y-%m-%d %H:%M:%S') "
 }
 
-# 函数：启动gunicorn
+# 启动gunicorn
 start_gunicorn() {
     if [ -f "$PID_FILE" ]; then
         echo -e "$(current_time)${GREEN}Gunicorn is already running.${NC}"
@@ -27,7 +27,7 @@ start_gunicorn() {
     fi
 }
 
-# 函数：停止gunicorn
+# 停止gunicorn
 stop_gunicorn() {
     if [ -f "$PID_FILE" ]; then
         echo -e "$(current_time)${GREEN}Stopping Gunicorn...${NC}"
@@ -39,13 +39,13 @@ stop_gunicorn() {
     fi
 }
 
-# 函数：重启gunicorn
+# 重启gunicorn
 restart_gunicorn() {
     stop_gunicorn
     start_gunicorn
 }
 
-# 函数：检查gunicorn状态
+# 检查gunicorn状态
 status_gunicorn() {
     if [ -f "$PID_FILE" ]; then
         echo -e "$(current_time)${GREEN}Gunicorn is running with PID: $(cat "$PID_FILE")${NC}"
