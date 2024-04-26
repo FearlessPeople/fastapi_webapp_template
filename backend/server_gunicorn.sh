@@ -6,26 +6,36 @@ PID_FILE="gunicorn.pid"
 # 设置gunicorn启动命令
 GUNICORN_CMD="gunicorn main:app -c gunicorn.py --daemon"
 
+# ANSI颜色代码
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+
+# 函数：获取当前时间
+current_time() {
+    echo -n "$(date +'%Y-%m-%d %H:%M:%S') "
+}
+
 # 函数：启动gunicorn
 start_gunicorn() {
     if [ -f "$PID_FILE" ]; then
-        echo "Gunicorn is already running."
+        echo -e "$(current_time)${GREEN}Gunicorn is already running.${NC}"
     else
-        echo "Starting Gunicorn..."
+        echo -e "$(current_time)${GREEN}Starting Gunicorn...${NC}"
         $GUNICORN_CMD
-        echo "Gunicorn started."
+        echo -e "$(current_time)${GREEN}Gunicorn started.${NC}"
     fi
 }
 
 # 函数：停止gunicorn
 stop_gunicorn() {
     if [ -f "$PID_FILE" ]; then
-        echo "Stopping Gunicorn..."
+        echo -e "$(current_time)${GREEN}Stopping Gunicorn...${NC}"
         kill -TERM $(cat "$PID_FILE")
         rm "$PID_FILE"
-        echo "Gunicorn stopped."
+        echo -e "$(current_time)${GREEN}Gunicorn stopped.${NC}"
     else
-        echo "Gunicorn is not running."
+        echo -e "$(current_time)${RED}Gunicorn is not running.${NC}"
     fi
 }
 
@@ -38,9 +48,9 @@ restart_gunicorn() {
 # 函数：检查gunicorn状态
 status_gunicorn() {
     if [ -f "$PID_FILE" ]; then
-        echo "Gunicorn is running with PID: $(cat "$PID_FILE")"
+        echo -e "$(current_time)${GREEN}Gunicorn is running with PID: $(cat "$PID_FILE")${NC}"
     else
-        echo "Gunicorn is not running."
+        echo -e "$(current_time)${RED}Gunicorn is not running.${NC}"
     fi
 }
 

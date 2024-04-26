@@ -18,7 +18,8 @@ from jose import JWTError, jwt
 from passlib.context import CryptContext
 
 from backend.core.config import settings
-from backend.models import User
+from backend.models import User, OnlineUser
+from backend.util.util_orm import upsert
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/v1/login")
 
@@ -74,13 +75,18 @@ async def get_current_user(token: str = Depends(oauth2_scheme)) -> User:
     )
     try:
         payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
-        username: str = payload.get("sub")
-        if username is None:
+        userid: str = payload.get("sub")
+        if userid is None:
+            # 数据库中让该用户下线
+            await OnlineUser(userid=userid).delete()
             raise credentials_exception
+        else:
+            # 将当前用户加入数据库在线用户清单中
+            await upsert(OnlineUser, userid=userid)
     except JWTError as e:
         print(e)
         raise credentials_exception
-    user = await User.get(username=username)
+    user = await User.get(id=userid)
     if user is None:
         raise credentials_exception
     return user
