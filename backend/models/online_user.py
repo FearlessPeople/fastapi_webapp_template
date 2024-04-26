@@ -14,7 +14,7 @@ class OnlineUser(models.Model):
         table_description = "在线用户表"
 
 
-# 输出模型，注意这里输出模型的时候不输出password
+# 输出模型
 OnlineUser_Pydantic = pydantic_model_creator(OnlineUser, name="OnlineUser")
 # 输入模型
 OnlineUserIn_Pydantic = pydantic_model_creator(OnlineUser, name="OnlineUserIn")
